@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 12:06:46 by gpollast         ###   ########.fr       */
+/*   Created: 2025/07/10 13:34:48 by erpascua          #+#    #+#             */
+/*   Updated: 2025/07/10 13:37:26 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+int	ft_sqrt(int nb)
+{
+	int	result;
 
-#include <stdbool.h>
-
-#define ESC 65307
-#define UP_ARROW 65362
-#define DOWN_ARROW 65364
-#define LEFT_ARROW 65361
-#define RIGHT_ARROW 65363
-
-int	parse(char *s);
-
-#endif
+	result = 0;
+	if (nb <= 0)
+		return (0);
+	else if (nb == 1)
+		return (1);
+	while (result <= nb / 2)
+	{
+		if ((nb == result * result) && (nb % result == 0))
+			return (result);
+		result++;
+	}
+	return (0);
+}

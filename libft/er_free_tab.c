@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   er_free_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 12:06:46 by gpollast         ###   ########.fr       */
+/*   Created: 2025/07/18 16:25:42 by erpascua          #+#    #+#             */
+/*   Updated: 2025/07/19 02:52:35 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+#include "libft.h"
 
-#include <stdbool.h>
+void	free_tab(char **tab)
+{
+	size_t	i;
 
-#define ESC 65307
-#define UP_ARROW 65362
-#define DOWN_ARROW 65364
-#define LEFT_ARROW 65361
-#define RIGHT_ARROW 65363
-
-int	parse(char *s);
-
-#endif
+	i = 0;
+	if (!tab)
+		return ;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}

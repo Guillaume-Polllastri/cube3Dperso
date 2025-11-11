@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 12:06:46 by gpollast         ###   ########.fr       */
+/*   Created: 2025/05/02 14:52:38 by erpascua          #+#    #+#             */
+/*   Updated: 2025/07/04 16:02:48 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+#include "libft.h"
 
-#include <stdbool.h>
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	unsigned char	*p_s;
 
-#define ESC 65307
-#define UP_ARROW 65362
-#define DOWN_ARROW 65364
-#define LEFT_ARROW 65361
-#define RIGHT_ARROW 65363
-
-int	parse(char *s);
-
-#endif
+	p_s = (unsigned char *)s;
+	while (n > 0)
+	{
+		if (*p_s == (unsigned char)c)
+			return (p_s);
+		p_s++;
+		n--;
+	}
+	return (NULL);
+}

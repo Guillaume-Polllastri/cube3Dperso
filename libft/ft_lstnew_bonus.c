@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 12:06:46 by gpollast         ###   ########.fr       */
+/*   Created: 2025/05/02 16:40:47 by erpascua          #+#    #+#             */
+/*   Updated: 2025/05/06 15:52:54 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+#include "libft.h"
 
-#include <stdbool.h>
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*new_t;
 
-#define ESC 65307
-#define UP_ARROW 65362
-#define DOWN_ARROW 65364
-#define LEFT_ARROW 65361
-#define RIGHT_ARROW 65363
-
-int	parse(char *s);
-
-#endif
+	new_t = (t_list *) malloc (sizeof(t_list));
+	if (!new_t)
+		return (NULL);
+	new_t -> content = content;
+	new_t -> next = NULL;
+	return (new_t);
+}

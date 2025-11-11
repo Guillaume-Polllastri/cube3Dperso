@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 12:06:46 by gpollast         ###   ########.fr       */
+/*   Created: 2025/11/11 11:45:00 by gpollast          #+#    #+#             */
+/*   Updated: 2025/11/11 12:14:54 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+#include "cube3d.h"
+#include "../../libft/libft.h"
 
-#include <stdbool.h>
+static bool	is_valid_name(char *s)
+{
+	int	i;
 
-#define ESC 65307
-#define UP_ARROW 65362
-#define DOWN_ARROW 65364
-#define LEFT_ARROW 65361
-#define RIGHT_ARROW 65363
+	i = ft_strlen(s);
+	while (s[i] != '.')
+		i--;
+	if (!ft_strcmp(s + i, ".cub") && ft_strlen(s + i) == ft_strlen(".cub"))
+		return (true);
+	return (false);
+}
 
-int	parse(char *s);
-
-#endif
+int	parse(char *s)
+{
+	if (!is_valid_name(s))
+	{
+		ft_fprintf(2, "Error extension file must be .cub\n");
+		return (0);		
+	}
+	return (1);
+}
