@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:45:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 12:14:54 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/11 12:21:31 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 static bool	is_valid_name(char *s)
 {
-	int	i;
+	char	*first_occurence;
 
-	i = ft_strlen(s);
-	while (s[i] != '.')
-		i--;
-	if (!ft_strcmp(s + i, ".cub") && ft_strlen(s + i) == ft_strlen(".cub"))
+	first_occurence = ft_strnstr(s, ".cub", ft_strlen(s));
+	if (!first_occurence)
+		return (false);
+	if (!ft_strcmp(first_occurence, ".cub") && ft_strlen(first_occurence) == ft_strlen(".cub"))
 		return (true);
 	return (false);
 }

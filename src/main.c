@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 12:10:28 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/11 15:15:09 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@ static int  handle_key_hook(int keycode, void *mlx)
     if (keycode == ESC)
         mlx_loop_end(mlx);
     else if (keycode == LEFT_ARROW)
-        printf("GAUCHE\n");
+        printf("Tourne a gauche\n");
     else if (keycode == RIGHT_ARROW)
-        printf("DROITE\n");
-    else if (keycode == UP_ARROW)
+        printf("Tourne a droite\n");
+    else if (keycode == W)
         printf("HAUT\n");
-    else if (keycode == DOWN_ARROW)
+    else if (keycode == A)
+        printf("GAUCHE\n");
+    else if (keycode == S)
         printf("BAS\n");
+    else if (keycode == D)
+        printf("DROITE\n");
     else
         printf("%d\n", keycode);
     return (0);

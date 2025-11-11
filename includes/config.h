@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 14:46:21 by gpollast         ###   ########.fr       */
+/*   Created: 2025/11/11 14:45:08 by gpollast          #+#    #+#             */
+/*   Updated: 2025/11/11 15:13:33 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+#ifndef CONFIG_H
+# define CONFIG_H
 
-#include <stdbool.h>
-#include "config.h"
-
-int	parse(char *s);
+#define ESC 65307
+#define LEFT_ARROW 65361
+#define RIGHT_ARROW 65363
+#define W 119
+#define A 97
+#define S 115
+#define D 100
 
 #endif
