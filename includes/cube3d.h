@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 14:46:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:41:26 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,27 @@
 #include <stdbool.h>
 #include "config.h"
 
-int	parse(char *s);
+typedef	struct	s_map
+{
+	char	**content;
+	int		width;
+	int		height;
+}	t_map;
+
+typedef struct	s_player
+{
+	double	x;
+	double	y;
+}	t_player;
+
+typedef struct s_game
+{
+	void		*mlx;
+	void		*win_ptr;
+	t_map		*map;
+	t_player	*player;
+}	t_game;
+
+int	parse(t_game *game, char *s);
 
 #endif

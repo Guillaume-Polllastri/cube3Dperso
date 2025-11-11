@@ -6,12 +6,15 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:45:08 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 15:13:33 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/11 15:21:34 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONFIG_H
 # define CONFIG_H
+
+#define WIN_WIDTH 1000
+#define WIN_HEIGHT 600
 
 #define ESC 65307
 #define LEFT_ARROW 65361

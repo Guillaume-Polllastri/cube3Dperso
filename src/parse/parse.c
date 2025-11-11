@@ -6,12 +6,13 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:45:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 12:21:31 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:26:37 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 #include "../../libft/libft.h"
+#include <fcntl.h>
 
 static bool	is_valid_name(char *s)
 {
@@ -25,12 +26,42 @@ static bool	is_valid_name(char *s)
 	return (false);
 }
 
-int	parse(char *s)
+static	int	fill_map(t_map *map, char *s)
+{
+	int		fd;
+	int		i;
+
+	fd = open(s, O_RDONLY, 0);
+	if (fd == -1)
+	{
+		ft_fprintf(2, "Error: Cannot open file\n");
+		return (0);
+	}
+	map->content = malloc(sizeof(char *) * (map->height + 1));
+	if (!map->content)
+		return(close(fd), 0);
+	i = 0;
+	map->content[i] = get_next_line(fd); // TODO securise malloc gnl
+	while (map->content[i])
+	{
+		i++;
+		map->content[i] = get_next_line(fd);
+	}
+	return (1);
+}
+
+int	parse(t_game *game, char *s)
 {
 	if (!is_valid_name(s))
 	{
 		ft_fprintf(2, "Error extension file must be .cub\n");
-		return (0);		
+		return (0);
 	}
+	game->map = calloc(1, sizeof(game->map));
+	if (!game->map)
+		return (0);
+	game->map->height = 5;
+	if (!fill_map(game->map, s))
+		return (0);
 	return (1);
 }
