@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   config.h                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 14:45:08 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/13 20:04:04 by gpollast         ###   ########.fr       */
+/*   Created: 2025/11/13 18:29:09 by gpollast          #+#    #+#             */
+/*   Updated: 2025/11/13 18:46:22 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONFIG_H
-# define CONFIG_H
+#include "cube3d.h"
 
-#define WIN_WIDTH 1000
-#define WIN_HEIGHT 600
-
-#define MAP_WIDTH 8
-#define MAP_HEIGHT 5
-
-#define ESC 65307
-#define LEFT_ARROW 65361
-#define RIGHT_ARROW 65363
-#define W 119
-#define A 97
-#define S 115
-#define D 100
-
-#endif
+double	ft_abs(double value)
+{
+	if (value < 0)
+		value *= -1;
+	return (value);
+}

@@ -6,14 +6,15 @@
 #    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 11:10:25 by gpollast          #+#    #+#              #
-#    Updated: 2025/11/12 10:39:15 by gpollast         ###   ########.fr        #
+#    Updated: 2025/11/13 18:31:47 by gpollast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cube3D
 
 SRCS =	src/main.c \
-        src/parse/parse.c
+        src/parse/parse.c \
+		src/utils.c
 
 OBJ_DIR = obj
 OBJ = $(SRCS:%.c=$(OBJ_DIR)/%.o)

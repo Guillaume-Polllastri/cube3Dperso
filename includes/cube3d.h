@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/12 17:59:38 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:46:36 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ typedef	struct	s_map
 
 typedef struct	s_player
 {
-	int	x;
-	int	y;
+	double	x;
+	double	y;
+	double	teta;
 }	t_player;
 
 typedef struct s_game
@@ -37,6 +38,7 @@ typedef struct s_game
 	t_player	*player;
 }	t_game;
 
-int	parse(t_game *game, char *s);
+int		parse(t_game *game, char *s);
+double	ft_abs(double value);
 
 #endif
