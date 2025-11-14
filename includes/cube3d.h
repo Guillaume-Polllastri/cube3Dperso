@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/13 18:46:36 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/14 13:28:58 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct	s_player
 	double	x;
 	double	y;
 	double	teta;
+	double  fov_distance;
 }	t_player;
 
 typedef struct s_game
