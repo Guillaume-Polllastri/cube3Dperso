@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/14 13:28:58 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/16 16:47:01 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,22 @@ typedef struct	s_player
 	double  fov_distance;
 }	t_player;
 
+typedef struct	s_framebuffer
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+}	t_framebuffer;
+
 typedef struct s_game
 {
-	void		*mlx;
-	void		*win_ptr;
-	t_map		*map;
-	t_player	*player;
+	void			*mlx;
+	void			*win_ptr;
+	t_framebuffer	*buffer;
+	t_map			*map;
+	t_player		*player;
 }	t_game;
 
 int		parse(t_game *game, char *s);

@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/16 13:24:11 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/16 23:26:03 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,7 @@
 
 static	bool	is_wall(t_game *game, int x, int y)
 {
-	int	x_grid;
-	int	y_grid;
-
-	x_grid = x / (WIN_WIDTH / MAP_WIDTH);
-	y_grid = y / (WIN_HEIGHT / MAP_HEIGHT);
-	if (game->map->content[y_grid][x_grid] == '1')
+	if (game->map->content[y][x] == '1')
 		return (true);
 	return (false);
 }
@@ -33,37 +28,35 @@ static int  handle_key_hook(int keycode, t_game *game)
     	mlx_loop_end(game->mlx);
     else if (keycode == LEFT_ARROW)
 	{
-		game->player->teta = (int)(game->player->teta - 1) % (int)(2.0 * M_PI);
+		game->player->teta -= ROTATE_SPEED;
+		printf("|%f|\n", game->player->teta);
 		// printf("Tourne a gauche\n");		
 	}
     else if (keycode == RIGHT_ARROW)
 	{
-		game->player->teta = (int)(game->player->teta + 1) % (int)(2.0 * M_PI);
+		game->player->teta += ROTATE_SPEED;
+		printf("|%f|\n", game->player->teta);
       	// printf("Tourne a droite\n");
 	}
     else if (keycode == W)
 	{
-		if (!is_wall(game, game->player->x, game->player->y - PLAYER_SPEED))
-			game->player->y -= PLAYER_SPEED;
-      	// printf("HAUT\n");
+		game->player->y += PLAYER_SPEED * sin(game->player->teta);
+		game->player->x += PLAYER_SPEED * cos(game->player->teta);
 	}
     else if (keycode == A)
 	{
-		if (!is_wall(game, game->player->x - PLAYER_SPEED, game->player->y))
-			game->player->x -= PLAYER_SPEED;
-      	// printf("GAUCHE\n");
+		game->player->y += PLAYER_SPEED * sin(game->player->teta + M_PI_2);
+		game->player->x += PLAYER_SPEED * cos(game->player->teta + M_PI_2);
 	}
     else if (keycode == S)
 	{
-		if (!is_wall(game, game->player->x, game->player->y + PLAYER_SPEED))
-			game->player->y += PLAYER_SPEED;
-        // printf("BAS\n");
+		game->player->y += PLAYER_SPEED * sin(game->player->teta + M_PI);
+		game->player->x += PLAYER_SPEED * cos(game->player->teta + M_PI);
 	}
     else if (keycode == D)
 	{
-		if (!is_wall(game, game->player->x + PLAYER_SPEED, game->player->y))
-			game->player->x += PLAYER_SPEED;
-        // printf("DROITE\n");
+		game->player->y += PLAYER_SPEED * sin(game->player->teta - M_PI_2);
+		game->player->x += PLAYER_SPEED * cos(game->player->teta - M_PI_2);
 	}
 	else if (keycode == LIGHT)
 	{
@@ -75,11 +68,11 @@ static int  handle_key_hook(int keycode, t_game *game)
     return (0);
 }
 
-static void	draw_line(t_game *game, int distance, double teta)
+static double	compute_distance(t_game *game, int distance, double teta)
 {
-	int	i;
-	int	x;
-	int	y;
+	double	i;
+	double	x;
+	double	y;
 
 	i = 0;
 	while (i < distance)
@@ -87,39 +80,78 @@ static void	draw_line(t_game *game, int distance, double teta)
 		x = game->player->x + i * cos(teta);
 		y = game->player->y + i * sin(teta);
 		if (is_wall(game, (int)x, (int)y))
-			return ;
-		mlx_pixel_put(game->mlx, game->win_ptr, x, y, 0x00FF00);
-		i++;
+			return (i);
+		i += 0.001;
+	}
+	return (i);
+}
+
+static unsigned int	get_pixel_color(int r, int g, int b)
+{
+	int	color;
+
+	color = (int)(r) << 16;
+	color |= (int)(g) << 8;
+	color |= (int)(b);
+	return (color);
+}
+
+static void	draw_col(t_game *game, int x, double distance)
+{
+	int	y;
+	int	wall_height;
+	int	start;
+	int	end;
+	int	offset;
+
+	if (distance == 0)
+		wall_height = WIN_HEIGHT;
+	else
+		wall_height = WIN_HEIGHT / distance;
+	start = (WIN_HEIGHT / 2.0) - (wall_height / 2.0);
+	end = start + wall_height;
+	y = 0;
+	while (y < WIN_HEIGHT)
+	{
+		offset = y * game->buffer->size_line + x * (game->buffer->bits_per_pixel / 8);
+		if (y < start)
+			*(int *)(game->buffer->addr + offset) = get_pixel_color(0xDF, 0xEB, 0xEB);
+		else if (y > end)
+			*(int *)(game->buffer->addr + offset) = get_pixel_color(0xFF, 0xCB, 0xCB);
+		else
+			*(int *)(game->buffer->addr + offset) = get_pixel_color(0x9E, 0xA1, 0xD4);
+		y++;
 	}
 }
 
 static void	draw_fov(t_game *game, double player_angle, int fov_range)
 {
-    int		distance;
+    double	distance;
     double	left_teta;
     double	right_teta;
     double	current_teta;
     double	ray_step;
-    int		num_rays;
+	int		x;
 
-    distance = fov_range;
     left_teta = player_angle + (FOV_ANGLE / 2);
     right_teta = player_angle - (FOV_ANGLE / 2);
-    num_rays = 20;
-    ray_step = FOV_ANGLE / num_rays;
+    ray_step = FOV_ANGLE / WIN_WIDTH;
     current_teta = left_teta;
+	x = 0;
     while (current_teta >= right_teta)
-    { 
-        draw_line(game, distance, current_teta);
+    {
+        distance = compute_distance(game, fov_range, current_teta);
+		draw_col(game, x, distance);
         current_teta -= ray_step;
+		x++;
     }
 }
 
 static int	render(t_game *game)
 {
-	mlx_clear_window(game->mlx, game->win_ptr);
+    ft_memset(game->buffer->addr, 0, WIN_WIDTH * WIN_HEIGHT * (game->buffer->bits_per_pixel / 8));
     draw_fov(game, game->player->teta, game->player->fov_distance);
-    mlx_pixel_put(game->mlx, game->win_ptr, game->player->x, game->player->y, 0xFF0000);
+    mlx_put_image_to_window(game->mlx, game->win_ptr, game->buffer->img, 0, 0);
     return (1);
 }
 
@@ -132,13 +164,16 @@ int main(int ac, char **av)
 	ft_bzero(&game, sizeof(game));
 	if (!parse(&game, av[1]))
 		return (1);
-	game.player = calloc(1, sizeof(t_player));
-	game.player->x = 300;
-  	game.player->y = 300;
+	game.player = ft_calloc(1, sizeof(t_player));
+	game.player->x = 1.5;
+  	game.player->y = 1.5;
 	game.player->teta = 0;
-	game.player->fov_distance = 100;
+	game.player->fov_distance = 1000;
+	game.buffer = ft_calloc(1, sizeof(t_framebuffer));
   	game.mlx = mlx_init();
   	game.win_ptr = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cube3D");
+	game.buffer->img = mlx_new_image(game.mlx, WIN_WIDTH, WIN_HEIGHT);
+	game.buffer->addr = mlx_get_data_addr(game.buffer->img, &game.buffer->bits_per_pixel, &game.buffer->size_line, &game.buffer->endian);
 	mlx_loop_hook(game.mlx, render, &game);
   	mlx_hook(game.win_ptr, 2, 1L<<0, handle_key_hook, &game);
   	mlx_loop(game.mlx);
