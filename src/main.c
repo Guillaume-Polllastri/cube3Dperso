@@ -6,21 +6,26 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/14 19:13:16 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/16 13:24:11 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _USE_MATH_DEFINES
-#define _GNU_SOURCE
-
 #include "cube3d.h"
 #include <stdio.h>
-#include <math.h>
 #include "../minilibx-linux/mlx.h"
 #include "../libft/libft.h"
 
-#define FOV_ANGLE M_PI_4
-#define LIGHT 108
+static	bool	is_wall(t_game *game, int x, int y)
+{
+	int	x_grid;
+	int	y_grid;
+
+	x_grid = x / (WIN_WIDTH / MAP_WIDTH);
+	y_grid = y / (WIN_HEIGHT / MAP_HEIGHT);
+	if (game->map->content[y_grid][x_grid] == '1')
+		return (true);
+	return (false);
+}
 
 static int  handle_key_hook(int keycode, t_game *game)
 {
@@ -38,22 +43,26 @@ static int  handle_key_hook(int keycode, t_game *game)
 	}
     else if (keycode == W)
 	{
-		game->player->y -= 10;
+		if (!is_wall(game, game->player->x, game->player->y - PLAYER_SPEED))
+			game->player->y -= PLAYER_SPEED;
       	// printf("HAUT\n");
 	}
     else if (keycode == A)
 	{
-		game->player->x -= 10;
+		if (!is_wall(game, game->player->x - PLAYER_SPEED, game->player->y))
+			game->player->x -= PLAYER_SPEED;
       	// printf("GAUCHE\n");
 	}
     else if (keycode == S)
 	{
-		game->player->y += 10;
+		if (!is_wall(game, game->player->x, game->player->y + PLAYER_SPEED))
+			game->player->y += PLAYER_SPEED;
         // printf("BAS\n");
 	}
     else if (keycode == D)
 	{
-		game->player->x += 10;
+		if (!is_wall(game, game->player->x + PLAYER_SPEED, game->player->y))
+			game->player->x += PLAYER_SPEED;
         // printf("DROITE\n");
 	}
 	else if (keycode == LIGHT)
@@ -66,18 +75,6 @@ static int  handle_key_hook(int keycode, t_game *game)
     return (0);
 }
 
-static	bool	is_wall(t_game *game, int x, int y)
-{
-	int	x_grid;
-	int	y_grid;
-
-	x_grid = x / (WIN_WIDTH / MAP_WIDTH);
-	y_grid = y / (WIN_HEIGHT / MAP_HEIGHT);
-	if (game->map->content[x_grid][y_grid] == '1')
-		return (true);
-	return (false);
-}
-
 static void	draw_line(t_game *game, int distance, double teta)
 {
 	int	i;
@@ -87,11 +84,11 @@ static void	draw_line(t_game *game, int distance, double teta)
 	i = 0;
 	while (i < distance)
 	{
+		x = game->player->x + i * cos(teta);
+		y = game->player->y + i * sin(teta);
 		if (is_wall(game, (int)x, (int)y))
 			return ;
 		mlx_pixel_put(game->mlx, game->win_ptr, x, y, 0x00FF00);
-		x = game->player->x + i * cos(teta);
-		y = game->player->y + i * sin(teta);
 		i++;
 	}
 }
