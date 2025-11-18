@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:45:08 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/16 23:28:04 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/18 09:53:20 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #define FOV_ANGLE M_PI_4
 #define LIGHT 108
 #define PLAYER_SPEED 0.1
-#define ROTATE_SPEED 0.017 * 2
+#define ROTATE_SPEED 0.017 * 3
 
 #define ESC 65307
 #define LEFT_ARROW 65361

@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/16 23:26:03 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/18 11:37:56 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,52 +20,6 @@ static	bool	is_wall(t_game *game, int x, int y)
 	if (game->map->content[y][x] == '1')
 		return (true);
 	return (false);
-}
-
-static int  handle_key_hook(int keycode, t_game *game)
-{
-    if (keycode == ESC)
-    	mlx_loop_end(game->mlx);
-    else if (keycode == LEFT_ARROW)
-	{
-		game->player->teta -= ROTATE_SPEED;
-		printf("|%f|\n", game->player->teta);
-		// printf("Tourne a gauche\n");		
-	}
-    else if (keycode == RIGHT_ARROW)
-	{
-		game->player->teta += ROTATE_SPEED;
-		printf("|%f|\n", game->player->teta);
-      	// printf("Tourne a droite\n");
-	}
-    else if (keycode == W)
-	{
-		game->player->y += PLAYER_SPEED * sin(game->player->teta);
-		game->player->x += PLAYER_SPEED * cos(game->player->teta);
-	}
-    else if (keycode == A)
-	{
-		game->player->y += PLAYER_SPEED * sin(game->player->teta + M_PI_2);
-		game->player->x += PLAYER_SPEED * cos(game->player->teta + M_PI_2);
-	}
-    else if (keycode == S)
-	{
-		game->player->y += PLAYER_SPEED * sin(game->player->teta + M_PI);
-		game->player->x += PLAYER_SPEED * cos(game->player->teta + M_PI);
-	}
-    else if (keycode == D)
-	{
-		game->player->y += PLAYER_SPEED * sin(game->player->teta - M_PI_2);
-		game->player->x += PLAYER_SPEED * cos(game->player->teta - M_PI_2);
-	}
-	else if (keycode == LIGHT)
-	{
-		if (game->player->fov_distance == 100)
-			game->player->fov_distance = WIN_WIDTH;
-		else
-			game->player->fov_distance = 100;
-	}
-    return (0);
 }
 
 static double	compute_distance(t_game *game, int distance, double teta)
@@ -124,7 +78,7 @@ static void	draw_col(t_game *game, int x, double distance)
 	}
 }
 
-static void	draw_fov(t_game *game, double player_angle, int fov_range)
+void	draw_fov(t_game *game, double player_angle, int fov_range)
 {
     double	distance;
     double	left_teta;
@@ -147,12 +101,50 @@ static void	draw_fov(t_game *game, double player_angle, int fov_range)
     }
 }
 
-static int	render(t_game *game)
+static void	setup_keys(t_game *game)
 {
-    ft_memset(game->buffer->addr, 0, WIN_WIDTH * WIN_HEIGHT * (game->buffer->bits_per_pixel / 8));
-    draw_fov(game, game->player->teta, game->player->fov_distance);
-    mlx_put_image_to_window(game->mlx, game->win_ptr, game->buffer->img, 0, 0);
-    return (1);
+	game->keys[KEY_W] = W;
+	game->keys[KEY_A] = A;
+	game->keys[KEY_S] = S;
+	game->keys[KEY_D] = D;
+	game->keys[KEY_LEFT_ARROW] = LEFT_ARROW;
+	game->keys[KEY_RIGHT_ARROW] = RIGHT_ARROW;
+}
+
+static int	get_index_keys(t_game *game, int keycode)
+{
+	int	i;
+
+	i = 0;
+	while (i < KEY_COUNT)
+	{
+		if (game->keys[i] == keycode)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+static int  handle_key_press(int keycode, t_game *game)
+{
+	int	index_keys;
+	
+	index_keys = get_index_keys(game, keycode);
+    if (keycode == ESC)
+        mlx_loop_end(game->mlx);
+    else if (index_keys >= 0)
+        game->is_pressed[index_keys] = true;
+    return (0);
+}
+
+static int  handle_key_release(int keycode, t_game *game)
+{
+	int	index_keys;
+
+	index_keys = get_index_keys(game, keycode);
+	if (index_keys >= 0)
+    	game->is_pressed[index_keys] = false;
+    return (0);
 }
 
 int main(int ac, char **av)
@@ -169,13 +161,16 @@ int main(int ac, char **av)
   	game.player->y = 1.5;
 	game.player->teta = 0;
 	game.player->fov_distance = 1000;
+	setup_keys(&game);
+	ft_memset(&game.is_pressed, 0, sizeof(game.is_pressed));
 	game.buffer = ft_calloc(1, sizeof(t_framebuffer));
   	game.mlx = mlx_init();
   	game.win_ptr = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cube3D");
 	game.buffer->img = mlx_new_image(game.mlx, WIN_WIDTH, WIN_HEIGHT);
 	game.buffer->addr = mlx_get_data_addr(game.buffer->img, &game.buffer->bits_per_pixel, &game.buffer->size_line, &game.buffer->endian);
-	mlx_loop_hook(game.mlx, render, &game);
-  	mlx_hook(game.win_ptr, 2, 1L<<0, handle_key_hook, &game);
+	mlx_loop_hook(game.mlx, game_loop, &game);
+  	mlx_hook(game.win_ptr, 2, 1L<<0, handle_key_press, &game);
+  	mlx_hook(game.win_ptr, 3, 1L<<1, handle_key_release, &game);
   	mlx_loop(game.mlx);
   	return (0);
 }
