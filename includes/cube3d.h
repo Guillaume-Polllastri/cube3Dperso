@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/18 11:21:55 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/18 18:45:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,22 @@ typedef	struct	s_map
 	int		height;
 }	t_map;
 
+typedef enum e_direction
+{
+	NORTH = 0,
+	SOUTH = 1,
+	WEST = 2,
+	EAST = 3,
+	DIRECTION_COUNT = 4
+}	t_direction;
+
 typedef struct	s_player
 {
-	double	x;
-	double	y;
-	double	teta;
-	double  fov_distance;
+	double		x;
+	double		y;
+	double		teta;
+	double  	fov_distance;
+	t_direction	direction;
 }	t_player;
 
 typedef struct	s_framebuffer

@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/18 11:37:56 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/18 18:49:08 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ static double	compute_distance(t_game *game, int distance, double teta)
 		x = game->player->x + i * cos(teta);
 		y = game->player->y + i * sin(teta);
 		if (is_wall(game, (int)x, (int)y))
+		{
+			game->player->direction = SOUTH;
 			return (i);
+		}
 		i += 0.001;
 	}
+	game->player->direction = NORTH;
 	return (i);
 }
 
@@ -48,6 +52,18 @@ static unsigned int	get_pixel_color(int r, int g, int b)
 	color |= (int)(g) << 8;
 	color |= (int)(b);
 	return (color);
+}
+
+static void	draw_wall(t_game *game, int offset)
+{
+	if (game->player->direction == NORTH)
+		*(int *)(game->buffer->addr + offset) = get_pixel_color(0xd6, 0x36, 0x38);
+	else if (game->player->direction == SOUTH)
+		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x13, 0x5e, 0x96);
+	else if (game->player->direction == WEST)
+		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x00, 0x70, 0x17);
+	else if (game->player->direction == EAST)
+		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x96, 0x6b, 0x00);
 }
 
 static void	draw_col(t_game *game, int x, double distance)
@@ -73,7 +89,7 @@ static void	draw_col(t_game *game, int x, double distance)
 		else if (y > end)
 			*(int *)(game->buffer->addr + offset) = get_pixel_color(0xFF, 0xCB, 0xCB);
 		else
-			*(int *)(game->buffer->addr + offset) = get_pixel_color(0x9E, 0xA1, 0xD4);
+			draw_wall(game, offset);
 		y++;
 	}
 }
