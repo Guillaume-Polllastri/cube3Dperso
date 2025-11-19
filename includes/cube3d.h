@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/18 18:45:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/19 11:32:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ int		parse(t_game *game, char *s);
 double	ft_abs(double value);
 int		game_loop(t_game *game);
 void	draw_fov(t_game *game, double player_angle, int fov_range);
+double	min_double(double a, double b);
 
 #endif

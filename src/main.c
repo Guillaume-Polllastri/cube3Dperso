@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/18 18:49:08 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/19 17:39:30 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,24 @@ static	bool	is_wall(t_game *game, int x, int y)
 		return (true);
 	return (false);
 }
+
+// static double	dda_step_(double a, double va)
+// {
+// 	double	next_a;
+// 	double	ta;
+	
+// 	if (va > 0)
+// 		next_a = ceil(a);
+// 	else if (va < 0)
+// 		next_a = floor(a);
+// 	else
+// 		next_a = NAN;
+// 	if (!va)
+// 		ta = (next_a - a) / va;
+// 	else
+// 		ta = NAN;
+// 	return (next_a);
+// }
 
 static double	compute_distance(t_game *game, int distance, double teta)
 {
@@ -176,7 +194,7 @@ int main(int ac, char **av)
 	game.player->x = 1.5;
   	game.player->y = 1.5;
 	game.player->teta = 0;
-	game.player->fov_distance = 1000;
+	game.player->fov_distance = WIN_WIDTH;
 	setup_keys(&game);
 	ft_memset(&game.is_pressed, 0, sizeof(game.is_pressed));
 	game.buffer = ft_calloc(1, sizeof(t_framebuffer));

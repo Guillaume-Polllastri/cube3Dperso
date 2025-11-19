@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 10:05:52 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/18 18:50:40 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:19:27 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	update_player_movement(t_game *game)
     }
     if (game->is_pressed[KEY_A])
     {
-        game->player->y += PLAYER_SPEED * sin(game->player->teta + M_PI_2);
-        game->player->x += PLAYER_SPEED * cos(game->player->teta + M_PI_2);
+        game->player->y += (PLAYER_SPEED / 2) * sin(game->player->teta + M_PI_2);
+        game->player->x += (PLAYER_SPEED / 2) * cos(game->player->teta + M_PI_2);
     }
     if (game->is_pressed[KEY_S])
     {
@@ -34,8 +34,8 @@ static void	update_player_movement(t_game *game)
     }
     if (game->is_pressed[KEY_D])
     {
-        game->player->y += PLAYER_SPEED * sin(game->player->teta - M_PI_2);
-        game->player->x += PLAYER_SPEED * cos(game->player->teta - M_PI_2);
+        game->player->y += (PLAYER_SPEED / 2) * sin(game->player->teta - M_PI_2);
+        game->player->x += (PLAYER_SPEED / 2) * cos(game->player->teta - M_PI_2);
     }
     if (game->is_pressed[KEY_LEFT_ARROW])
         game->player->teta += ROTATE_SPEED;
