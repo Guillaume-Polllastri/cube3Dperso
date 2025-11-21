@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/19 17:39:30 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/21 20:38:25 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../minilibx-linux/mlx.h"
 #include "../libft/libft.h"
 
-static	bool	is_wall(t_game *game, int x, int y)
+bool	is_wall(t_game *game, int x, int y)
 {
 	if (game->map->content[y][x] == '1')
 		return (true);
@@ -37,29 +37,54 @@ static	bool	is_wall(t_game *game, int x, int y)
 // 		ta = (next_a - a) / va;
 // 	else
 // 		ta = NAN;
-// 	return (next_a);
+// 	return (ta);
+// }
+
+// static	void	get_wall_face(t_game *game, double x, double y)
+// {
+// 	double	dx;
+// 	double	dy;
+
+// 	dx = x - game->player->x;
+// 	dy = y - game->player->y;
+// 	if (ft_abs(dy) > ft_abs(dx))
+// 	{
+// 		if (dy < 0)
+// 			game->player->direction = NORTH;
+// 		else
+// 			game->player->direction = SOUTH;
+// 	}
+// 	else
+// 	{
+// 		if (dx < 0)
+// 			game->player->direction = WEST;
+// 		else
+// 			game->player->direction = EAST;
+// 	}PLAYER_SPEED * cos(game->player->teta)
 // }
 
 static double	compute_distance(t_game *game, int distance, double teta)
 {
-	double	i;
-	double	x;
-	double	y;
+    double	i;
+    double	x;
+    double	y;
 
-	i = 0;
-	while (i < distance)
-	{
-		x = game->player->x + i * cos(teta);
-		y = game->player->y + i * sin(teta);
-		if (is_wall(game, (int)x, (int)y))
-		{
-			game->player->direction = SOUTH;
-			return (i);
-		}
-		i += 0.001;
-	}
-	game->player->direction = NORTH;
-	return (i);
+    i = 0;
+    while (i < distance)
+    {
+        x = game->player->x + i * cos(teta);
+        y = game->player->y + i * sin(teta);
+        if (x < 0 || x >= game->map->width || y < 0 || y >= game->map->height)
+            return (i);
+        if (is_wall(game, (int)x, (int)y))
+        {
+            game->player->direction = NORTH;
+            return (i);
+        }
+        i += 0.001;
+    }
+    game->player->direction = NORTH;
+    return (i);
 }
 
 static unsigned int	get_pixel_color(int r, int g, int b)

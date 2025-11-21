@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/19 11:32:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/21 20:38:36 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ double	ft_abs(double value);
 int		game_loop(t_game *game);
 void	draw_fov(t_game *game, double player_angle, int fov_range);
 double	min_double(double a, double b);
+bool	is_wall(t_game *game, int x, int y);
 
 #endif

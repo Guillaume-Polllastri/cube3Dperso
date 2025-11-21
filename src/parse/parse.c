@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:45:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/11 17:26:37 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:09:59 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	parse(t_game *game, char *s)
 	if (!game->map)
 		return (0);
 	game->map->height = 5;
+	game->map->width = 8;
 	if (!fill_map(game->map, s))
 		return (0);
 	return (1);
