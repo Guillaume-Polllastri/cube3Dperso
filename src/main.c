@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/21 20:38:25 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/24 18:24:20 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,28 +63,119 @@ bool	is_wall(t_game *game, int x, int y)
 // 	}PLAYER_SPEED * cos(game->player->teta)
 // }
 
-static double	compute_distance(t_game *game, int distance, double teta)
-{
-    double	i;
-    double	x;
-    double	y;
+// static void	dda_algo(t_game *game)
+// {
+// 	double	mapX;
+// 	double	mapY;
+// 	double	deltaDistX;
+// 	double	deltaDistY;
 
-    i = 0;
-    while (i < distance)
-    {
-        x = game->player->x + i * cos(teta);
-        y = game->player->y + i * sin(teta);
-        if (x < 0 || x >= game->map->width || y < 0 || y >= game->map->height)
-            return (i);
-        if (is_wall(game, (int)x, (int)y))
-        {
-            game->player->direction = NORTH;
-            return (i);
-        }
-        i += 0.001;
-    }
-    game->player->direction = NORTH;
-    return (i);
+// 	mapX = floor(game->player->x);
+// 	mapY = floor(game->player->y);
+// 	deltaDistX = ft_abs(1 / 1);
+// 	deltaDistY = ft_abs(1 / 0.66);
+// }
+
+// static double	compute_distance(t_game *game, int distance, double teta)
+// {
+//     double	i;
+//     double	x;
+//     double	y;
+
+//     i = 0;
+//     while (i < distance)
+//     {
+//         x = game->player->x + i * cos(teta);
+//         y = game->player->y + i * sin(teta);
+//         if (x < 0 || x >= game->map->width || y < 0 || y >= game->map->height)
+//             return (i);
+//         if (is_wall(game, (int)x, (int)y))
+//         {
+//             game->player->direction = NORTH;
+//             return (i);
+//         }
+//         i += 0.001;
+//     }
+//     game->player->direction = NORTH;
+//     return (i);
+// }
+
+static	t_hit	raycast_dda(t_game *game , double teta)
+{
+	t_hit	hit;
+	double	rayDirX;
+	double	rayDirY;
+	double	deltaDistX;
+	double	deltaDistY;
+	int		mapX;
+	int		mapY;
+	int		stepX;
+	int		stepY;
+	double	sideDistX;
+	double	sideDistY;
+	int		side;
+	
+	hit.distance = 0;
+	rayDirX = cos(teta);
+	rayDirY = sin(teta);
+    deltaDistX = (rayDirX == 0.0) ? 1e30 : ft_abs(1.0 / rayDirX);
+    deltaDistY = (rayDirY == 0.0) ? 1e30 : ft_abs(1.0 / rayDirY);
+	mapX = (int)game->player->x;
+	mapY = (int)game->player->y;
+	if (rayDirX < 0)
+	{
+		stepX = -1;
+		sideDistX = (game->player->x - (double)mapX) * deltaDistX;
+	}
+	else
+	{ 
+		stepX = 1;
+		sideDistX = ((double)mapX + 1.0 - game->player->x) * deltaDistX;
+	}
+	if (rayDirY < 0)
+	{
+		stepY = -1;
+		sideDistY = (game->player->y - (double)mapY) * deltaDistY;
+	}
+	else
+	{
+		stepY = 1;
+		sideDistY = ((double)mapY + 1.0 - game->player->y) * deltaDistY;
+	}
+	while (true)
+	{
+		if (sideDistX < sideDistY)
+		{
+			sideDistX += deltaDistX;
+			mapX += stepX;
+			side = 0;
+		}
+		else
+		{
+			sideDistY += deltaDistY;
+			mapY += stepY;
+			side = 1;
+		}
+		if (is_wall(game, mapX, mapY))
+			break ;
+	}
+	if (side == 0)
+	{
+		hit.distance = sideDistX - deltaDistX;
+		if (stepX > 0)
+			hit.face = EAST;
+		else
+			hit.face = WEST;
+	}
+	else
+	{
+		hit.distance = sideDistY - deltaDistY;
+		if (stepY > 0)
+			hit.face = SOUTH;
+		else
+			hit.face = NORTH;
+	}
+	return (hit);
 }
 
 static unsigned int	get_pixel_color(int r, int g, int b)
@@ -97,19 +188,19 @@ static unsigned int	get_pixel_color(int r, int g, int b)
 	return (color);
 }
 
-static void	draw_wall(t_game *game, int offset)
+static void	draw_wall(t_game *game, t_hit hit, int offset)
 {
-	if (game->player->direction == NORTH)
-		*(int *)(game->buffer->addr + offset) = get_pixel_color(0xd6, 0x36, 0x38);
-	else if (game->player->direction == SOUTH)
+	if (hit.face == NORTH)
 		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x13, 0x5e, 0x96);
-	else if (game->player->direction == WEST)
-		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x00, 0x70, 0x17);
-	else if (game->player->direction == EAST)
-		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x96, 0x6b, 0x00);
+	else if (hit.face == SOUTH)
+		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x13, 0x5e, 0x96);
+	else if (hit.face == WEST)
+		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x13, 0x5e, 0x96) * 0.9;
+	else if (hit.face == EAST)
+		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x13, 0x5e, 0x96) * 0.9;
 }
 
-static void	draw_col(t_game *game, int x, double distance)
+static void	draw_col(t_game *game, t_hit hit, int x, double distance)
 {
 	int	y;
 	int	wall_height;
@@ -132,19 +223,19 @@ static void	draw_col(t_game *game, int x, double distance)
 		else if (y > end)
 			*(int *)(game->buffer->addr + offset) = get_pixel_color(0xFF, 0xCB, 0xCB);
 		else
-			draw_wall(game, offset);
+			draw_wall(game, hit, offset);
 		y++;
 	}
 }
 
-void	draw_fov(t_game *game, double player_angle, int fov_range)
+void	draw_fov(t_game *game, double player_angle)
 {
-    double	distance;
     double	left_teta;
     double	right_teta;
     double	current_teta;
     double	ray_step;
 	int		x;
+	t_hit	hit;
 
     left_teta = player_angle + (FOV_ANGLE / 2);
     right_teta = player_angle - (FOV_ANGLE / 2);
@@ -153,8 +244,9 @@ void	draw_fov(t_game *game, double player_angle, int fov_range)
 	x = 0;
     while (current_teta >= right_teta)
     {
-        distance = compute_distance(game, fov_range, current_teta);
-		draw_col(game, x, distance);
+		hit = raycast_dda(game, current_teta);
+        // distance = compute_distance(game, fov_range, current_teta);
+		draw_col(game, hit, x, hit.distance);
         current_teta -= ray_step;
 		x++;
     }

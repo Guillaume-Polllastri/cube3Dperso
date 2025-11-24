@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 10:05:52 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/21 20:55:48 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:48:43 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	update_player_movement(t_game *game)
 static int	render(t_game *game)
 {
     ft_memset(game->buffer->addr, 0, WIN_WIDTH * WIN_HEIGHT * (game->buffer->bits_per_pixel / 8));
-    draw_fov(game, game->player->teta, game->player->fov_distance);
+    draw_fov(game, game->player->teta);
     mlx_put_image_to_window(game->mlx, game->win_ptr, game->buffer->img, 0, 0);
     return (1);
 }

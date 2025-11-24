@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/21 20:38:36 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:49:04 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ typedef enum e_direction
 	EAST = 3,
 	DIRECTION_COUNT = 4
 }	t_direction;
+
+typedef struct s_hit
+{
+    double		distance;
+    t_direction	face;
+}   t_hit;
 
 typedef struct	s_player
 {
@@ -75,7 +81,7 @@ typedef struct s_game
 int		parse(t_game *game, char *s);
 double	ft_abs(double value);
 int		game_loop(t_game *game);
-void	draw_fov(t_game *game, double player_angle, int fov_range);
+void	draw_fov(t_game *game, double player_angle);
 double	min_double(double a, double b);
 bool	is_wall(t_game *game, int x, int y);
 
