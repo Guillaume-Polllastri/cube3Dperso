@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/24 18:24:20 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/25 09:03:58 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ void	draw_fov(t_game *game, double player_angle)
     double	ray_step;
 	int		x;
 	t_hit	hit;
+	double	corrected_distance;
 
     left_teta = player_angle + (FOV_ANGLE / 2);
     right_teta = player_angle - (FOV_ANGLE / 2);
@@ -246,7 +247,8 @@ void	draw_fov(t_game *game, double player_angle)
     {
 		hit = raycast_dda(game, current_teta);
         // distance = compute_distance(game, fov_range, current_teta);
-		draw_col(game, hit, x, hit.distance);
+		corrected_distance = hit.distance * cos(current_teta - player_angle);
+		draw_col(game, hit, x, corrected_distance);
         current_teta -= ray_step;
 		x++;
     }

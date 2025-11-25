@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:45:08 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/24 18:07:13 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/25 09:01:49 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #define MAP_WIDTH 8
 #define MAP_HEIGHT 5
 
-#define FOV_ANGLE M_PI_4
+#define FOV_ANGLE (90 * (M_PI / 180))
 #define LIGHT 108
 #define PLAYER_SPEED 0.0095
 #define ROTATE_SPEED 0.017 * 0.6
