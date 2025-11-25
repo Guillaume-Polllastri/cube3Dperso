@@ -35,9 +35,9 @@ static void player_movement(t_game *game, t_keys key, double teta)
 static void	update_player_movement(t_game *game)
 {
     player_movement(game, KEY_W, game->player->teta);
-    player_movement(game, KEY_A, game->player->teta + M_PI_2);
+    player_movement(game, KEY_A, game->player->teta - M_PI_2);
     player_movement(game, KEY_S, game->player->teta + M_PI);
-    player_movement(game, KEY_D, game->player->teta - M_PI_2);
+    player_movement(game, KEY_D, game->player->teta + M_PI_2);
     // if (game->is_pressed[KEY_W])
     // {
     //     game->player->y += PLAYER_SPEED * sin(game->player->teta); 
@@ -59,9 +59,9 @@ static void	update_player_movement(t_game *game)
     //     game->player->x += (PLAYER_SPEED / 2) * cos(game->player->teta - M_PI_2);
     // }
     if (game->is_pressed[KEY_LEFT_ARROW])
-        game->player->teta += ROTATE_SPEED;
-    if (game->is_pressed[KEY_RIGHT_ARROW])
         game->player->teta -= ROTATE_SPEED;
+    if (game->is_pressed[KEY_RIGHT_ARROW])
+        game->player->teta += ROTATE_SPEED;
 }
 
 static int	render(t_game *game)
