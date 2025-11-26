@@ -6,14 +6,14 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/26 11:18:56 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/26 11:27:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-#include <stdio.h>
 #include "../minilibx-linux/mlx.h"
 #include "../libft/libft.h"
+#include <stdio.h>
 
 int main(int ac, char **av)
 {

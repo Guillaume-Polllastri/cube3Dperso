@@ -6,12 +6,12 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:18:30 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/26 11:21:18 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/26 11:24:44 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
 #include "../minilibx-linux/mlx.h"
+#include "cube3d.h"
 
 void	setup_keys(t_game *game)
 {
@@ -37,24 +37,24 @@ static int	get_index_keys(t_game *game, int keycode)
 	return (-1);
 }
 
-int  handle_key_press(int keycode, t_game *game)
+int	handle_key_press(int keycode, t_game *game)
 {
 	int	index_keys;
-	
+
 	index_keys = get_index_keys(game, keycode);
-    if (keycode == ESC)
-        mlx_loop_end(game->mlx);
-    else if (index_keys >= 0)
-        game->is_pressed[index_keys] = true;
-    return (0);
+	if (keycode == ESC)
+		mlx_loop_end(game->mlx);
+	else if (index_keys >= 0)
+		game->is_pressed[index_keys] = true;
+	return (0);
 }
 
-int  handle_key_release(int keycode, t_game *game)
+int	handle_key_release(int keycode, t_game *game)
 {
 	int	index_keys;
 
 	index_keys = get_index_keys(game, keycode);
 	if (index_keys >= 0)
-    	game->is_pressed[index_keys] = false;
-    return (0);
+		game->is_pressed[index_keys] = false;
+	return (0);
 }

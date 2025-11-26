@@ -6,12 +6,12 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:45:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/21 19:09:59 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/26 11:26:03 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
 #include "../../libft/libft.h"
+#include "cube3d.h"
 #include <fcntl.h>
 
 static bool	is_valid_name(char *s)
@@ -21,15 +21,16 @@ static bool	is_valid_name(char *s)
 	first_occurence = ft_strnstr(s, ".cub", ft_strlen(s));
 	if (!first_occurence)
 		return (false);
-	if (!ft_strcmp(first_occurence, ".cub") && ft_strlen(first_occurence) == ft_strlen(".cub"))
+	if (!ft_strcmp(first_occurence, ".cub")
+		&& ft_strlen(first_occurence) == ft_strlen(".cub"))
 		return (true);
 	return (false);
 }
 
-static	int	fill_map(t_map *map, char *s)
+static int	fill_map(t_map *map, char *s)
 {
-	int		fd;
-	int		i;
+	int	fd;
+	int	i;
 
 	fd = open(s, O_RDONLY, 0);
 	if (fd == -1)
@@ -39,7 +40,7 @@ static	int	fill_map(t_map *map, char *s)
 	}
 	map->content = malloc(sizeof(char *) * (map->height + 1));
 	if (!map->content)
-		return(close(fd), 0);
+		return (close(fd), 0);
 	i = 0;
 	map->content[i] = get_next_line(fd); // TODO securise malloc gnl
 	while (map->content[i])
