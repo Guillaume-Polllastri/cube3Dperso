@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:08:47 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/26 11:12:28 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:56:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static	t_hit	raycast_dda(t_game *game, double rayDirX, double rayDirY)
 
 static void	draw_wall(t_game *game, t_hit hit, int offset)
 {
-	if (hit.face == NORTH)
+	if (hit.face == NORTH)        
 		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x13, 0x5e, 0x96);
 	else if (hit.face == SOUTH)
 		*(int *)(game->buffer->addr + offset) = get_pixel_color(0x13, 0x5e, 0x96);
