@@ -6,7 +6,7 @@
 #    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 11:10:25 by gpollast          #+#    #+#              #
-#    Updated: 2025/11/19 11:05:33 by gpollast         ###   ########.fr        #
+#    Updated: 2025/11/26 11:20:44 by gpollast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ NAME = cube3D
 SRCS =	src/main.c \
         src/parse/parse.c \
 		src/utils.c \
-		src/game_loop.c
+		src/game_loop.c \
+		src/render.c \
+		src/input.c
 
 OBJ_DIR = obj
 OBJ = $(SRCS:%.c=$(OBJ_DIR)/%.o)

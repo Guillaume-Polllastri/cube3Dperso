@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/24 17:49:04 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/26 11:20:30 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <stdbool.h>
 #include "config.h"
+#include "texture.h"
 
 typedef	struct	s_map
 {
@@ -78,11 +79,17 @@ typedef struct s_game
 	bool			is_pressed[6];
 }	t_game;
 
-int		parse(t_game *game, char *s);
-double	ft_abs(double value);
-int		game_loop(t_game *game);
-void	draw_fov(t_game *game, double player_angle);
-double	min_double(double a, double b);
-bool	is_wall(t_game *game, int x, int y);
+int				parse(t_game *game, char *s);
+double			ft_abs(double value);
+int				game_loop(t_game *game);
+void			draw_fov(t_game *game, double player_angle);
+double			min_double(double a, double b);
+bool			is_wall(t_game *game, int x, int y);
+unsigned int	get_pixel_color(int r, int g, int b);
+
+// input.c
+void			setup_keys(t_game *game);
+int  			handle_key_press(int keycode, t_game *game);
+int				handle_key_release(int keycode, t_game *game);
 
 #endif
