@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:08:47 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/26 15:56:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/28 13:53:28 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static	t_hit	raycast_dda(t_game *game, double rayDirX, double rayDirY)
 	double	sideDistX;
 	double	sideDistY;
 	int		side;
+	double	hitX;
+	double	hitY;
 	
 	hit.distance = 0;
 	deltaDistX = (rayDirX == 0.0) ? 1e30 : fabs(1.0 / rayDirX);
@@ -69,6 +71,14 @@ static	t_hit	raycast_dda(t_game *game, double rayDirX, double rayDirY)
 		if (is_wall(game, mapX, mapY))
 			break ;
 	}
+	hitX = game->player->x + rayDirX * hit.distance;
+	hitY = game->player->y + rayDirY * hit.distance;
+	if (side == 0)
+		hit.wallX = fmod(hitY, 1.0);
+	else
+		hit.wallX = fmod(hitX, 1.0);
+	if (hit.wallX < 0)
+		hit.wallX += 1;
 	if (side == 0)
 	{
 		hit.distance = sideDistX - deltaDistX;

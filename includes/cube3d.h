@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/26 14:01:17 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/11/28 11:30:39 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_hit
 {
     double		distance;
     t_direction	face;
+	double		wallX;
 }   t_hit;
 
 typedef struct	s_player
