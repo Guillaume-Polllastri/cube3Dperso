@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/12/01 11:42:19 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/12/01 11:44:37 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ static int	load_texture(t_game *game, t_texture *texture, char *path)
 		return (0);		
 	texture->img = mlx_xpm_file_to_image(game->mlx, path, &texture->width, &texture->height);
 	if (!texture->img)
-	{
-		printf("OK\n");
 		return (free(texture), 0);
-	}
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->size_line, &texture->endian);
 	return (1);
 }
