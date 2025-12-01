@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:06:57 by gpollast          #+#    #+#             */
-/*   Updated: 2025/12/01 11:44:37 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/12/01 22:15:46 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ static int	load_texture(t_game *game, t_texture *texture, char *path)
 		return (0);		
 	texture->img = mlx_xpm_file_to_image(game->mlx, path, &texture->width, &texture->height);
 	if (!texture->img)
-		return (free(texture), 0);
+		return (0);
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->size_line, &texture->endian);
 	return (1);
 }
 
 static int	load_texture_pack(t_game *game)
 {
-    if (!load_texture(game, &game->textures->north, "./textures/mango.xpm")
-     || !load_texture(game, &game->textures->south, "./textures/mango2.xpm")
-     || !load_texture(game, &game->textures->east,  "./textures/mango3.xpm")
-     || !load_texture(game, &game->textures->west,  "./textures/mango4.xpm"))
+    if (!load_texture(game, &game->textures->north, "./textures/brick_wall2.xpm")
+     || !load_texture(game, &game->textures->south, "./textures/brick_wall2.xpm")
+     || !load_texture(game, &game->textures->east,  "./textures/brick_wall2.xpm")
+     || !load_texture(game, &game->textures->west,  "./textures/brick_wall2.xpm"))
         return (ft_fprintf(2, "Failed to load texture\n"), 0);
 	else
 		return (1);
