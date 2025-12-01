@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 11:05:36 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/26 11:52:10 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/12/01 11:37:19 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ typedef struct s_texture
     int		height;
 }	t_texture;
 
-typedef struct s_textures
+typedef struct s_texture_pack
 {
     t_texture	north;
     t_texture	south;
     t_texture	east;
     t_texture	west;
-}	t_textures;
+}	t_texture_pack;
 
 #endif

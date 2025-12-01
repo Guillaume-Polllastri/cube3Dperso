@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:07:42 by gpollast          #+#    #+#             */
-/*   Updated: 2025/11/28 11:30:39 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/12/01 11:41:12 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_game
 	t_player		*player;
 	int				keys[6];
 	bool			is_pressed[6];
-	t_textures		*textures;
+	t_texture_pack	*textures;
 }	t_game;
 
 int				parse(t_game *game, char *s);
